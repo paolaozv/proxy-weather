@@ -1,4 +1,3 @@
-const { Router } = require('express');
 const express = require('express');
 const request = require('request');
 
@@ -9,11 +8,11 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get('/:url', (req, response) => {
-  const url = req.params.url;
-
-  request(url, () => {
-    return response;
+app.get('*', (req, response) => {
+  const url = req.originalUrl
+  console.log(url)
+  request(url.slice(1), (err, res, body) => {  
+    response.json(JSON.parse(body))
   });
 });
 
